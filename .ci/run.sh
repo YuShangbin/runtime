@@ -36,4 +36,6 @@ sudo docker ps -a
 # Execute the tests under `clearcontainers/tests` repository.
 test_repo="github.com/clearcontainers/tests"
 cd "${GOPATH}/src/${test_repo}"
-sudo -E PATH=$PATH make check
+sudo -E PATH=$PATH bash .ci/install_bats.sh
+sudo -E PATH=$PATH ln -sf ${GOPATH}/src/${test_repo}/integration/cri-o/crio.bats ${GOPATH}/src/github.com/kubernetes-incubator/cri-o/test
+cd ${GOPATH}/src/github.com/kubernetes-incubator/cri-o && sudo -E PATH=$PATH RUNTIME=cc-runtime bash ./test/test_runner.sh crio.bats
